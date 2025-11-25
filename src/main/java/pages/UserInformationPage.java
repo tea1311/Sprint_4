@@ -40,12 +40,4 @@ public class UserInformationPage {
     public void clickNextButton() {
         driver.findElement(nextButton).click();
     }
-    public void fillUserInfoPage(String name, String secondName, String address, String stationShort,
-                                 String stationFull, String phone) {
-        setNameField(name);
-        setSecondNameField(secondName);
-        setAddressField(address);
-        setStationField(stationShort, stationFull);
-        setPhoneField(phone);
-    }
 }
