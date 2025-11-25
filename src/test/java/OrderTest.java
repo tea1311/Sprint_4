@@ -53,17 +53,32 @@ public class OrderTest extends BaseTest {
         } else if ("bottom".equals(buttonType)) {
             mainPage.clickOrderButtonBottom();
         }
-        // 4. Заполнение формы информация о пользователе
-        userInformationPage.fillUserInfoPage(name, secondName, address, stationShort, stationFull, phone);
-        // 5. Нажать кнопку Далее
+        mainPage.clickOrderButtonHeader();
+        // 4. В поле Имя ввести Имя
+        userInformationPage.setNameField(name);
+        // 5. В поле Фамилия ввести фамилию
+        userInformationPage.setSecondNameField(secondName);
+        // 6. В поле Адрес ввести валидный адрес
+        userInformationPage.setAddressField(address);
+        // 7. В поле Станция метро ввести станцию
+        userInformationPage.setStationField(stationShort, stationFull);
+        // 8. В поле Телефон ввести валидный номер
+        userInformationPage.setPhoneField(phone);
+        // 9. Нажать кнопку Далее
         userInformationPage.clickNextButton();
-        // 6. Заполнение данных об аренде
-        rentalDataPages.fillRentalDataPage(day, period, comment);
-        // 7. Нажать кнопку заказать
+        // 10. Выбрать дату доставки самоката
+        rentalDataPages.setOrderDate(day);
+        // 11. Выбрать срок аренды
+        rentalDataPages.setRentalPeriod(period);
+        // 12.Выбрать цвет самоката
+        rentalDataPages.setGreyScooterColour();
+        // 13. Оставить комментарий для курьера
+        rentalDataPages.setCommentField(comment);
+        // 14. Нажать кнопку заказать
         rentalDataPages.clickOrderButton();
-        // 8. Подтвердить оформление заказа
+        // 15. Подтвердить оформление заказа
         rentalDataPages.clickConfirmOrderButton();
-        // 9. Сравнение ОР (заказ принят) и ФР
+        // 16. Сравнение ОР (заказ принят) и ФР
         Assert.assertTrue("Сообщение о принятом заказе не отображается", rentalDataPages.isOrderAccept());
     }
 }
