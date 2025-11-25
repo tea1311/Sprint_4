@@ -17,8 +17,11 @@ public class RentalDataPages {
     private By commentField = By.xpath(".//input[@placeholder = 'Комментарий для курьера']");
     private By confirmOrderButton = By.xpath("(//button[text() = 'Заказать'])[2]");
     private By modalConfirmOrder = By.xpath("//div[contains(@class, 'Order_Modal')]");
-    private By confirYesButton = By.xpath("//button[text() = 'Да']");
+    private By confirmYesButton = By.xpath("//button[text() = 'Да']");
     private By orderAcceptHeader = By.xpath("//div[contains(@class,'Order_ModalHeader') and text()='Заказ оформлен']");
+    private By calendarDay(String day) {
+        return By.xpath("//div[contains(@class,'react-datepicker__day') and text()='" + day + "']");
+    }
 
     public RentalDataPages(WebDriver driver) {
         this.driver = driver;
@@ -27,9 +30,8 @@ public class RentalDataPages {
     public void setOrderDate(String day) {
         driver.findElement(orderDate).click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        By calendar = By.xpath("//div[contains(@class,'react-datepicker__day') and (text()='" + day + "')]");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(calendar));
-        driver.findElement(calendar).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(calendarDay(day)));
+        driver.findElement(calendarDay(day)).click();
     }
 
     public void setRentalPeriod(String period) {
@@ -59,13 +61,19 @@ public class RentalDataPages {
     public void clickConfirmOrderButton() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(modalConfirmOrder));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text() = 'Да']")));
-        driver.findElement(confirYesButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(confirmYesButton));
+        driver.findElement(confirmYesButton).click();
     }
     public boolean isOrderAccept() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement successMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(orderAcceptHeader));
         return successMessage.isDisplayed();
+    }
+    public void fillRentalDataPage(String day, String period, String comment) {
+        setOrderDate(day);
+        setRentalPeriod(period);
+        setGreyScooterColour();
+        setCommentField(comment);
     }
 }
 
